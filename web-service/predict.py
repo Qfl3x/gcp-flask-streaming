@@ -38,7 +38,7 @@ def send_to_stream(message_json):
         print(e)
         return(e,500)
 
-def receive_from_stream():
+def receive():
    
     response = subscriber.pull(
         request={
@@ -92,7 +92,7 @@ def endpoint_predict():
     send_to_stream(message_bytes)
 
     #Receive data from  the output stream
-    pred_final = receive_from_stream()['duration_final']
+    pred_final = receive()['duration_final']
 
     return_dict = {'duration_init': pred_init,
                    'duration_fin': pred_final}
