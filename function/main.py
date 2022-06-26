@@ -1,3 +1,5 @@
+import os
+
 import base64
 import warnings
 warnings.filterwarnings('ignore')
@@ -13,7 +15,7 @@ from google.cloud import pubsub_v1
 
 publisher = pubsub_v1.PublisherClient()
 PROJECT_ID = os.getenv("PROJECT_ID")
-TOPIC_NAME = os.getenv("BACKEND_PUSH_STREAM")
+TOPIC_NAME = os.getenv("BACKEND_PULL_STREAM")
 
 topic_path = publisher.topic_path(PROJECT_ID, TOPIC_NAME)
 
@@ -48,15 +50,13 @@ def predict(X):
 
 def predict_duration(event, context):
     ride = base64.b64decode(event['data']).decode('utf-8')
-    print(ride)
     ride = json.loads(ride)
+
     D = preprocess_dict(ride)
     X = vectorize(ride)
     predicted_duration = round(predict(X))
     return_dict = {'duration_final': predicted_duration}
-    print(return_dict)
     send(json.dumps(return_dict))
-    print("SENT")
 
 if __name__ == "__main__":
 

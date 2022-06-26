@@ -1,4 +1,6 @@
+#Secure variables and credentials
 set_envs.sh
+**/service-account.json
 service-account.json
 
 **/__pycache__/

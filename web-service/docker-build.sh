@@ -1,0 +1,6 @@
+#!/bin/sh
+
+docker build --build-arg PROJECT_ID=$PROJECT_ID \
+	--build-arg BACKEND_PUSH_STREAM=$BACKEND_PUSH_STREAM \
+	--build-arg BACKEND_PULL_SUBSCRIBER_ID=$BACKEND_PULL_SUBSCRIBER_ID \
+	-t $1 ./

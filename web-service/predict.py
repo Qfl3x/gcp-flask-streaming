@@ -1,3 +1,4 @@
+import os
 import base64
 import pandas as pd
 
@@ -12,12 +13,12 @@ import json
 from google.cloud import pubsub_v1
 
 
-PROJECT_ID = 'mlops-zoomcamp-352510'
+PROJECT_ID = os.getenv("PROJECT_ID")
 publisher = pubsub_v1.PublisherClient()
 subscriber = pubsub_v1.SubscriberClient()
 
-PUBLISHER_TOPIC_NAME = "duration-stream"
-SUBSCRIPTION_ID = "prediction-stream-sub"
+PUBLISHER_TOPIC_NAME = os.getenv("BACKEND_PUSH_STREAM")
+SUBSCRIPTION_ID = os.getenv("BACKEND_PULL_SUBSCRIBER_ID")
 
 timeout = 20.
 
@@ -38,29 +39,7 @@ def send_to_stream(message_json):
         return(e,500)
 
 def receive_from_stream():
-   # def callback(message: pubsub_v1.subscriber.message.Message) -> None:
-   #     print(f"Received {message.data!r}.")
-   #     if message.attributes:
-   #         print("Attributes:")
-   #         for key in message.attributes:
-   #             value = message.attributes.get(key)
-   #             print(f"{key}: {value}")
-   #     message.ack()
-
-   # streaming_pull_future = subscriber.subscribe(subscriber_path, callback=callback)
-   # print(f"Listening for messages on {subscriber_path}..\n")
-
-   # with subscriber:
-   #         try:
-   #             result = streaming_pull_future.result(timeout=timeout)
-   #             print(result)
-   #             return result
-   #             
-   #         except TimeoutError:
-   #             streaming_pull_future.cancel()  # Trigger the shutdown.
-   #             streaming_pull_future.result()  # Block until the shutdown is complete.
-   # return 0
-    
+   
     response = subscriber.pull(
         request={
             "subscription": subscriber_path,
@@ -69,16 +48,14 @@ def receive_from_stream():
     )
     msg = response.received_messages[0]
     ack_id = msg.ack_id
-    subscriber.acknowledge(
+    subscriber.acknowledge( #Acknowledge reception
             request={
                 "subscription": subscriber_path,
                 "ack_ids": [ack_id]
             }
     )
     data = msg.message.data
-    print(data)
     data = json.loads(data)
-    print(data)
     return data
     
                                                                 
@@ -109,13 +86,11 @@ def endpoint_predict():
     #return features
     pred_init = predict(features)
     print("Finished backend prediction")
+
     #Send data to the prediction stream
-    print(ride)
-    print(type(ride))
     message_bytes = json.dumps(ride)
-    print("SERIALIZED")
     send_to_stream(message_bytes)
-    print("SENT")
+
     #Receive data from  the output stream
     pred_final = receive_from_stream()['duration_final']
 
