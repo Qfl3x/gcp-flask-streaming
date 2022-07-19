@@ -5,21 +5,45 @@ import warnings
 warnings.filterwarnings('ignore')
 import json
 
-from preprocess_complex_green import preprocess_dict
 
 import pickle
 
 import xgboost as xgb
 
 from google.cloud import pubsub_v1
+from google.cloud import storage
 
 publisher = pubsub_v1.PublisherClient()
 PROJECT_ID = os.getenv("PROJECT_ID")
 TOPIC_NAME = os.getenv("BACKEND_PULL_STREAM")
+MODEL_BUCKET = os.getenv("MODEL_BUCKET")
 
-topic_path = publisher.topic_path(PROJECT_ID, TOPIC_NAME)
+def download_files():
+
+    storage_client = storage.Client()
+
+    bucket = storage_client.bucket(MODEL_BUCKET)
+
+    preprocessor_blob = bucket.blob("model/preprocessor.py")
+    dv_blob = bucket.blob("model/dv.pkl")
+    model_blob = bucket.blob("model/model.xgb")
+
+    preprocessor_blob.download_to_filename("/tmp/preprocessor.py")
+    dv_blob.download_to_filename("/tmp/dv.pkl")
+    model_blob.download_to_filename("/tmp/model.xgb")
+
+    print("SUCCESS")
+
+download_files()
+import sys
+
+sys.path.insert(0,'/tmp/')
+from preprocessor import preprocess_dict
 
 def send(message_json):
+        
+        topic_path = publisher.topic_path(PROJECT_ID, TOPIC_NAME)
+
         message_bytes = message_json.encode('utf-8')
         print(message_bytes)
     
@@ -35,7 +59,7 @@ def send(message_json):
 
 def vectorize(D):
     
-    with open('dv_xgboost.pkl', 'rb') as f_in:
+    with open('/tmp/dv.pkl', 'rb') as f_in:
         dv = pickle.load(f_in)
 
     return dv.transform(D)
@@ -43,7 +67,7 @@ def vectorize(D):
 def predict(X):
 
     booster = xgb.Booster({'verbosity':0, 'silent':True})
-    booster.load_model('model.xgb')
+    booster.load_model('/tmp/model.xgb')
     
     X_predict = xgb.DMatrix(X)
     return booster.predict(X_predict)[0]
