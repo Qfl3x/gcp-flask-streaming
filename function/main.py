@@ -33,8 +33,33 @@ def download_files():
     model_blob.download_to_filename("/tmp/model.xgb")
 
     print("SUCCESS")
+    
+    preprocessor_full_blob = bucket.get_blob("model/preprocessor.py")
+    model_full_blob = bucket.get_blob("model/model.xgb")
 
-download_files()
+    preprocessor_modif_date = preprocessor_full_blob.updated
+    model_modif_date = model_full_blob.updated
+
+    last_modif = min(preprocessor_modif_date, model_modif_date)
+    return last_modif
+
+def get_last_modif():
+
+    storage_client = storage.Client()
+
+    bucket = storage_client.bucket(MODEL_BUCKET)
+
+    preprocessor_full_blob = bucket.get_blob("model/preprocessor.py")
+    model_full_blob = bucket.get_blob("model/model.xgb")
+
+    preprocessor_modif_date = preprocessor_full_blob.updated
+    model_modif_date = model_full_blob.updated
+
+    last_modif = max(preprocessor_modif_date, model_modif_date)
+    return last_modif
+
+
+files_date_init = download_files()
 import sys
 
 sys.path.insert(0,'/tmp/')
@@ -73,6 +98,30 @@ def predict(X):
     return booster.predict(X_predict)[0]
 
 def predict_duration(event, context):
+
+    last_modif = get_last_modif()
+    
+    global initiated
+    global files_date
+
+    try:
+        initiated
+        last_modif = get_last_modif()
+        if last_modif > files_date:
+            last_modif = download_files()
+            
+            import sys
+            sys.path.insert(0, '/tmp')
+            from preprocessor import preprocess_dict
+            files_date = last_modif
+    except:
+        initiated = True
+        files_date = files_date_init
+        import sys
+        sys.path.insert(0, '/tmp')
+        from preprocessor import preprocess_dict
+ 
+
     ride = base64.b64decode(event['data']).decode('utf-8')
     ride = json.loads(ride)
 
