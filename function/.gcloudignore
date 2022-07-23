@@ -1,1 +1,7 @@
 publish.py
+Pipfile.lock
+Pipfile
+publish.py
+tests/
+pyproject.toml
+.pytest_cache/

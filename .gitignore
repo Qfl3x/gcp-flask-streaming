@@ -2,6 +2,7 @@
 set_envs.sh
 **/service-account.json
 service-account.json
+.env
 
 **/__pycache__/
 *.py[cod]

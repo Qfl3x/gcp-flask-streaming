@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+holidays = ">=0.13"
+xgboost = "==1.5.0"
+pandas = "==1.4.2"
+scikit-learn = "==1.0.2"
+google-cloud-pubsub = "==2.13.0"
+google-cloud-storage = "*"
+functions-framework = "*"
+
+[dev-packages]
+pytest = "*"
+pytest-dotenv = "*"
+black = "*"
+pylint = "*"
+isort = "*"
+pre-commit = "*"
+
+[requires]
+python_version = "3.10"

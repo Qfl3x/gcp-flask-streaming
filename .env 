@@ -1,0 +1,8 @@
+PROJECT_ID=mlops-zoomcamp-352510
+BACKEND_PUSH_STREAM=backend-push-stream
+BACKEND_PULL_STREAM=backend-pull-stream
+BACKEND_PULL_SUBSCRUBER_ID=backend-pull-stream-sub
+
+MODEL_BUCKET=taxi-streaming-model
+
+GOOGLE_APPLICATION_CREDENTIALS=/home/qfl3x/gcp-flask-strreaming/service-account.json
