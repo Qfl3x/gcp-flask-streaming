@@ -2,6 +2,7 @@
 set_envs.sh
 **/service-account.json
 service-account.json
+terraform-account.json
 .env
 
 **/__pycache__/
