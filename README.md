@@ -2,7 +2,9 @@
 
 
 **web-service:** contains the web-service that will call the GC function
+
 **function:** contains the function itself
+
 **function/infrastructure:** Terraform infrastructure for initiating everything
 
 
