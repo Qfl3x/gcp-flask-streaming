@@ -1,23 +1,25 @@
-
-import main
 import os
 
+import main
 from dotenv import load_dotenv
+
 load_dotenv()
+
 
 def test_prediction():
 
     ride = {
-    'PULocationID': 43,
-    'DOLocationID': 215,
-    'datetime': '2021-01-01 00:15:56',
-    'trip_distance': 14
-}
+        "PULocationID": 43,
+        "DOLocationID": 215,
+        "datetime": "2021-01-01 00:15:56",
+        "trip_distance": 14,
+    }
 
     main.download_files()
 
     import sys
-    sys.path.insert(0,'/tmp')
+
+    sys.path.insert(0, "/tmp")
     from preprocessor import preprocess_dict
 
     D = preprocess_dict(ride)

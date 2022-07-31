@@ -5,3 +5,4 @@ publish.py
 tests/
 pyproject.toml
 .pytest_cache/
+infrastructure/

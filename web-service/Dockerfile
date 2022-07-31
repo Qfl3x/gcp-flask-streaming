@@ -8,7 +8,7 @@ ARG BACKEND_PULL_SUBSCRIBER_ID
 RUN pip install -U pip
 RUN pip install pipenv
 WORKDIR /app
-COPY ["Pipfile", "Pipfile.lock", "predict.py", "preprocess_simple_green.py" , "./"]
+COPY ["Pipfile", "Pipfile.lock", "predict.py", "preprocess_simple_green.py" , ".env", "./"]
 RUN pipenv install --deploy --system
 COPY ["model.pkl", "dv_simple_linreg.pkl", "service-account.json", "./"]
 EXPOSE 9696

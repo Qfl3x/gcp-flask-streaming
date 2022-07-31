@@ -13,6 +13,7 @@ requests = "*"
 gunicorn = "*"
 google-api-core = "*"
 google-cloud-pubsub = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

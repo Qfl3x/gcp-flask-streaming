@@ -4,7 +4,8 @@ Main file to be uploaded to GCP Functions; Function to be imported: predict_dura
 
 import base64
 import json
-# pylint: disable=C0413, E0401, E0118, W0621, E0601, W0601
+
+# pylint: disable=C0413, E0401, E0118, W0621, E0601, W0601, invalid-name
 import os
 import pickle
 import sys
@@ -107,7 +108,7 @@ def predict(model_features):
     Predict the features from vectorize"""
     booster = xgb.Booster({"verbosity": 0, "silent": True})
     booster.load_model("/tmp/model.xgb")
-
+    # pylint: disable=C0103
     model_features_DMatrix = xgb.DMatrix(model_features)
     return booster.predict(model_features_DMatrix)[0]
 

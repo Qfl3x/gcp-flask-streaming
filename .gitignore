@@ -1,12 +1,16 @@
 #Secure variables and credentials
 set_envs.sh
 **/service-account.json
+**/terraform-account.json
 service-account.json
 .env
 
 **/__pycache__/
 *.py[cod]
 *$py.class
+
+#Terraform providers
+**/.terraform/
 
 # C extensions
 *.so
