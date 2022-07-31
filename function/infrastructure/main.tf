@@ -1,6 +1,10 @@
 terraform {
   required_version = ">=1.0"
-  backend "local" {}
+  backend "gcs" {
+    bucket = "mlops-terraform-state"
+    prefix = "tfstate"
+    credentials = "./terraform-account.json"
+  }
   required_providers {
     google = {
       source = "hashicorp/google"
