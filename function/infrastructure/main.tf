@@ -13,7 +13,7 @@ terraform {
 }
 
 provider "google" {
-  project = "mlops-zoomcamp-352510"
+  project = var.gcp_project_id
   region  = "europe-west3"
   zone    = "europe-west3-c"
   credentials = var.gcp_credentials
