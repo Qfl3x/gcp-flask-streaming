@@ -1,5 +1,5 @@
 """ main.py
-Main file to be uploaded to GCP Functions; Function to be imported: predict_duration..
+Main file to be uploaded to GCP Functions; Function to be imported: predict_duration.
 """
 import base64
 import json
