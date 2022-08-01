@@ -2,8 +2,7 @@ terraform {
   required_version = ">=1.0"
   backend "gcs" {
     bucket = "mlops-terraform-state"
-    key = "mlops-terraform-stf.tfstate"
-    prefix = "tfstate"
+    prefix = "tfstate-stg"
     credentials = "./terraform-account.json"
   }
   required_providers {
