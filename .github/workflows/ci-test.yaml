@@ -49,6 +49,8 @@ jobs:
         run: |
           echo -e '${{ secrets.GCP_SERVICE_CREDENTIALS }}' >> function/service-account.json
           echo -e '${{ secrets.GCP_TERRAFORM_CREDENTIALS }}' >> function/infrastructure/terraform-account.json
+          echo -e '${{ secrets.TEST_VAR }}' >> function/test
+          cat function/test
       - name: TF plan
         id: plan
         working-directory: "function/infrastructure"
