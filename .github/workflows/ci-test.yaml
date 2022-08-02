@@ -1,6 +1,6 @@
 name: CI tests
 on:
-  pull_request:
+  push:
     branches:
       - 'main'
 
@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: 3.9.13
 
       # - name: Authenticate to Google Cloud
       #   uses: google-github-actions/auth@v0.7.3
@@ -28,10 +28,9 @@ jobs:
         run: echo -e '${{ secrets.GCP_SERVICE_CREDENTIALS }}' >> function/service-account.json
       - name: Install Dependencies
         working-directory: "function"
-        run: pip install pipenv && pipenv install --dev
+        run: pip install pipenv && pipenv install --dev --python 3.9.13
 
       - name: lint
-        working-directory: "function"
         run: pipenv run pylint --recursive=y .
 
       - name: Run tests
@@ -47,12 +46,24 @@ jobs:
 
       - name: Setup credentials
         run: |
-          echo -e '${{ secrets.GCP_SERVICE_CREDENTIALS }}' >> function/service-account.json
-          echo -e '${{ secrets.GCP_TERRAFORM_CREDENTIALS }}' >> function/infrastructure/terraform-account.json
+          echo -e '${{ secrets.GCP_SERVICE_CREDENTIALS }}' > function/service-account.json
+          echo -e '${{ secrets.GCP_TERRAFORM_CREDENTIALS }}' > function/infrastructure/terraform-account.json
+          echo -e '${{ secrets.GCP_TERRAFORM_CREDENTIALS }}' > terraform-account.json
           echo -e '${{ secrets.TEST_VAR }}' >> function/test
-          cat function/test
+          echo $(cat function/test)
+          echo 1234
+          echo $(ls function/infrastructure)
+          echo "credentials=${{ secrets.GCP_SERVICE_CREDENTIALS }}"
+      - name: Test credentials
+        working-directory: "function/infrastructure"
+        run : |
+          echo $(cat ./terraform-account.json)
       - name: TF plan
         id: plan
         working-directory: "function/infrastructure"
-        run:
-          terraform init -backend-config="prefix="tfstate-prod"" && terraform plan --var-file vars/prod.tfvars
+        run: |
+          echo $(ls)
+          terraform init -backend-config="prefix="tfstate-prod""
+          terraform plan --var-file vars/prod.tfvars
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GCP_TERRAFORM_CREDENTIALS}}

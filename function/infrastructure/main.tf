@@ -3,7 +3,7 @@ terraform {
   backend "gcs" {
     bucket = "mlops-terraform-state"
     prefix = "tfstate-stg"
-    credentials = "./terraform-account.json"
+    #credentials = "terraform-account.json"
   }
   required_providers {
     google = {
@@ -16,7 +16,7 @@ provider "google" {
   project = var.gcp_project_id
   region  = "europe-west3"
   zone    = "europe-west3-c"
-  credentials = var.gcp_credentials
+  #credentials = var.gcp_credentials
 }
 
 module "backend_push_stream" {
