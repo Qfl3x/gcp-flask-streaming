@@ -32,7 +32,7 @@ jobs:
 
       - name: lint
         working-directory: "function"
-        run: pipenv run pylint --recursive=y .
+        run: pipenv run pylint --recursive=y
 
       - name: Run tests
         working-directory: "function"
