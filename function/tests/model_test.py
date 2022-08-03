@@ -32,3 +32,7 @@ def test_prediction():
 
     # PROJECT_ID = os.environ.get("PROJECT_ID")
     # assert False, f"{PROJECT_ID}"
+
+
+if __name__ == "__main__":
+    test_prediction()
