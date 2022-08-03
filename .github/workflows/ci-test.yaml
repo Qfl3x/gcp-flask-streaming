@@ -1,6 +1,6 @@
 name: CI tests
 on:
-  pull_request:
+  push:
     branches:
       - 'main'
 
@@ -36,7 +36,9 @@ jobs:
 
       - name: Run tests
         working-directory: "function"
-        run: pipenv run pytest
+        run: |
+          echo $(cat service-account.json)
+          pipenv run pytest
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
   tf-plan:
