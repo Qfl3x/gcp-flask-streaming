@@ -1,7 +1,11 @@
 import os
+import sys
 
-import main
 from dotenv import load_dotenv
+
+sys.path.append("../")
+
+from function import main
 
 load_dotenv()
 
@@ -16,8 +20,6 @@ def test_prediction():
     }
 
     main.download_files()
-
-    import sys
 
     sys.path.insert(0, "/tmp")
     from preprocessor import preprocess_dict

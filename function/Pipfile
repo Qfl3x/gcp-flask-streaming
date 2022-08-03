@@ -4,11 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-holidays = ">=0.13"
-xgboost = "==1.5.0"
-pandas = "==1.4.2"
-scikit-learn = "==1.0.2"
-google-cloud-pubsub = "==2.13.0"
+holidays = "*"
+xgboost = "*"
+pandas = "*"
+scikit-learn = "*"
+google-cloud-pubsub = "*"
 google-cloud-storage = "*"
 functions-framework = "*"
 
