@@ -31,6 +31,8 @@ repos:
             "-rn", # Only display messages
             "-sn", # Don't display the score
             ]
+          env:
+            GOOGLE_APPLICATION_CREDENTIALS: "./service-account.json"
     -   repo: local
         hooks:
         - id: pytest
