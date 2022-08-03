@@ -31,13 +31,11 @@ repos:
             "-rn", # Only display messages
             "-sn", # Don't display the score
             ]
-          env:
-            GOOGLE_APPLICATION_CREDENTIALS: "./service-account.json"
     -   repo: local
         hooks:
         - id: pytest
           name: pytest
-          entry: bash -c 'cd function && pipenv run pytest'
+          entry: ./pre-commit-tests.sh
           language: system
           pass_filenames: false
           always_run: true

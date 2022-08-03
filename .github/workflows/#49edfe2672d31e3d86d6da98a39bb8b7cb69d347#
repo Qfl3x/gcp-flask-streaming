@@ -36,13 +36,10 @@ jobs:
 
       - name: Run tests
         working-directory: "function"
-        run: |
-          echo $(cat service-account.json)
-          pipenv run pytest
+        run: pipenv run pytest
         env:
+          GOOGLE_APPLICATION_CREDENTIALS: ./service-account.
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
-          #GOOGLE_APPLICATION_CREDENTIALS: ./service-account.json
-
   tf-plan:
     runs-on: ubuntu-latest
     steps:
