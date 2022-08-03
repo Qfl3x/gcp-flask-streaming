@@ -25,7 +25,7 @@ jobs:
       #     service_account: 'terraform@mlops-zoomcamp-352510.iam.serviceaccounts.com'
 
       - name: Setup service credentials
-        run: echo -e '${{ secrets.GCP_SERVICE_CREDENTIALS }}' >> function/service-account.json
+        run: echo -e '${{ secrets.GCP_SERVICE_CREDENTIALS }}' > function/service-account.json
       - name: Install Dependencies
         working-directory: "function"
         run: pip install pipenv && pipenv install --dev --python 3.9.13
@@ -37,6 +37,8 @@ jobs:
       - name: Run tests
         working-directory: "function"
         run: pipenv run pytest
+        env:
+          GOOGLE_CREDENTIALS :${{ secrets.GCP_SERVICE_CREDENTIALS }}
 
   tf-plan:
     runs-on: ubuntu-latest
