@@ -38,7 +38,7 @@ jobs:
         working-directory: "function"
         run: pipenv run pytest
         env:
-          GOOGLE_CREDENTIALS :${{ secrets.GCP_SERVICE_CREDENTIALS }}
+          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
 
   tf-plan:
     runs-on: ubuntu-latest
