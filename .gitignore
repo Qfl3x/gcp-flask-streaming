@@ -3,6 +3,7 @@ set_envs.sh
 **/service-account.json
 **/terraform-account.json
 service-account.json
+.secrets
 .env
 
 **/__pycache__/
