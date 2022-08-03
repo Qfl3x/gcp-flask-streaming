@@ -31,6 +31,7 @@ jobs:
         run: pip install pipenv && pipenv install --dev --python 3.9.13
 
       - name: lint
+        working-directory: "function"
         run: pipenv run pylint --recursive=y .
 
       - name: Run tests
@@ -48,12 +49,6 @@ jobs:
         run: |
           echo -e '${{ secrets.GCP_SERVICE_CREDENTIALS }}' > function/service-account.json
           echo -e '${{ secrets.GCP_TERRAFORM_CREDENTIALS }}' > function/infrastructure/terraform-account.json
-          echo -e '${{ secrets.GCP_TERRAFORM_CREDENTIALS }}' > terraform-account.json
-          echo -e '${{ secrets.TEST_VAR }}' >> function/test
-          echo $(cat function/test)
-          echo 1234
-          echo $(ls function/infrastructure)
-          echo "credentials=${{ secrets.GCP_SERVICE_CREDENTIALS }}"
       - name: Test credentials
         working-directory: "function/infrastructure"
         run : |
