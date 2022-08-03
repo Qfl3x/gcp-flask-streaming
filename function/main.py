@@ -1,10 +1,8 @@
 """ main.py
-Main file to be uploaded to GCP Functions; Function to be imported: predict_duration.
+Main file to be uploaded to GCP Functions; Function to be imported: predict_duration..
 """
 import base64
 import json
-
-# pylint: disable=C0413, E0401, E0118, W0621, E0601, W0601, invalid-name
 import os
 import pickle
 import sys
@@ -112,7 +110,6 @@ def predict(model_features):
     return booster.predict(model_features_DMatrix)[0]
 
 
-# pylint: disable=W0613
 def update_files(initiated, files_date):
     """
     Function to update the files incase they are modified"""
@@ -145,7 +142,6 @@ def predict_duration(event, context):
         reinitiated = True
 
     sys.path.insert(0, "/tmp")
-    # pylint: disable=W0404, C0415
     from preprocessor import preprocess_dict
 
     ride = base64.b64decode(event["data"]).decode("utf-8")
